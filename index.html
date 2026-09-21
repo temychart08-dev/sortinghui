@@ -1,6 +1,1132 @@
-<!DOCTYPE html> <html lang="uk">
-  <head>
-    <meta charset="UTF-8">,
-    <title> іщщаа  <title>
-      <body>  <body>
- <head>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wishlist Артема</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050509;
+      --bg-alt: #101018;
+      --card: #151520;
+      --accent: #ffffff;
+      --accent-soft: #8888ff;
+      --danger: #ff4b6a;
+      --text: #f5f5f5;
+      --text-muted: #9a9ab0;
+      --border: #262636;
+      --radius: 12px;
+      --transition: 0.18s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #202040 0, #050509 45%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1200px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: rgba(10, 10, 18, 0.9);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(18px);
+      padding: 18px 18px 20px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Sidebar */
+
+    .sidebar-section {
+      margin-bottom: 18px;
+    }
+
+    .sidebar-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 10px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .stat-pill {
+      font-size: 11px;
+      color: var(--accent-soft);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: transparent;
+      transition: background var(--transition), color var(--transition),
+        border-color var(--transition), transform var(--transition);
+    }
+
+    .tab.active {
+      background: var(--accent-soft);
+      color: #050509;
+      border-color: transparent;
+      transform: translateY(-1px);
+    }
+
+    .tab:hover {
+      border-color: var(--accent-soft);
+    }
+
+    .status-filter {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .status-chip {
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: transparent;
+      transition: background var(--transition), color var(--transition),
+        border-color var(--transition), transform var(--transition);
+      text-align: center;
+    }
+
+    .status-chip.active {
+      background: #ffffff;
+      color: #050509;
+      border-color: transparent;
+      transform: translateY(-1px);
+    }
+
+    .status-chip:hover {
+      border-color: var(--accent-soft);
+    }
+
+    .input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #0b0b12;
+      color: var(--text);
+      font-size: 12px;
+      outline: none;
+      transition: border-color var(--transition), background var(--transition),
+        box-shadow var(--transition);
+    }
+
+    .input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .input:focus {
+      border-color: var(--accent-soft);
+      box-shadow: 0 0 0 1px rgba(136, 136, 255, 0.4);
+      background: #0f0f18;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .input-small {
+      flex: 1;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      background: #ffffff;
+      color: #050509;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--transition), transform var(--transition),
+        box-shadow var(--transition), opacity var(--transition);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      background: #101018;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #181824;
+      color: var(--text);
+    }
+
+    .btn-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      font-size: 14px;
+    }
+
+    /* Main */
+
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+
+    .main-title {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .main-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .filters-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .filters-row .input {
+      max-width: 180px;
+    }
+
+    .items-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+    }
+
+    .item-card {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition),
+        border-color var(--transition), background var(--transition);
+    }
+
+    .item-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
+      border-color: rgba(255, 255, 255, 0.08);
+      background: #181824;
+    }
+
+    .item-top {
+      display: flex;
+      gap: 10px;
+    }
+
+    .item-image {
+      width: 72px;
+      height: 72px;
+      border-radius: 12px;
+      background: #0b0b12;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .item-title {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .item-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .item-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .tag-status {
+      border-color: var(--accent-soft);
+      color: var(--accent-soft);
+    }
+
+    .item-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .link {
+      font-size: 11px;
+      color: var(--accent-soft);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .favorite-btn {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--text-muted);
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .favorite-btn.active {
+      color: #ffb347;
+      transform: scale(1.05);
+    }
+
+    .favorite-btn:hover {
+      color: #ffd27f;
+    }
+
+    .status-select {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #0b0b12;
+      color: var(--text);
+      font-size: 11px;
+      padding: 4px 8px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .delete-btn {
+      color: var(--danger);
+    }
+
+    .pill {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .pill-strong {
+      border-color: var(--accent-soft);
+      color: var(--accent-soft);
+    }
+
+    .empty-state {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .section-divider {
+      margin: 10px 0;
+      border-top: 1px dashed rgba(255, 255, 255, 0.06);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar / Dashboard -->
+    <aside class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="title">Wishlist Артема</div>
+          <div class="subtitle">особистий дашборд речей, які ти хочеш і купуєш</div>
+        </div>
+        <div class="badge" id="items-count-badge">0 речей</div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Загальна картина</div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-label">Планую купити</div>
+            <div class="stat-value" id="stat-want">0</div>
+            <div class="stat-pill">статус «хочу купити»</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Замовлено</div>
+            <div class="stat-value" id="stat-ordered">0</div>
+            <div class="stat-pill">статус «замовлено»</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Очікується</div>
+            <div class="stat-value" id="stat-pending">0</div>
+            <div class="stat-pill">статус «очікується»</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Вже куплено</div>
+            <div class="stat-value" id="stat-bought">0</div>
+            <div class="stat-pill">статус «куплено / отримано»</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Категорії</div>
+        <div class="tabs" id="category-tabs">
+          <button class="tab active" data-category="all">Усе</button>
+          <button class="tab" data-category="sneakers">Кросівки</button>
+          <button class="tab" data-category="clothes">Одяг</button>
+          <button class="tab" data-category="other">Інші речі</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Статуси</div>
+        <div class="status-filter" id="status-filter">
+          <button class="status-chip active" data-status="all">Усі</button>
+          <button class="status-chip" data-status="want">Хочу купити</button>
+          <button class="status-chip" data-status="saved">Збережено</button>
+          <button class="status-chip" data-status="ordered">Замовлено</button>
+          <button class="status-chip" data-status="pending">Очікується</button>
+          <button class="status-chip" data-status="received">Отримано</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Фільтри</div>
+        <div class="input-row">
+          <input
+            type="number"
+            class="input input-small"
+            id="filter-price-min"
+            placeholder="мін. ціна"
+          />
+          <input
+            type="number"
+            class="input input-small"
+            id="filter-price-max"
+            placeholder="макс. ціна"
+          />
+        </div>
+        <input
+          type="text"
+          class="input"
+          id="filter-size"
+          placeholder="фільтр за розміром (наприклад 42, M)"
+        />
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Режим перегляду</div>
+        <div class="tabs" id="view-tabs">
+          <button class="tab active" data-view="all">Усі речі</button>
+          <button class="tab" data-view="favorites">Улюблені</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="panel">
+      <header class="main-header">
+        <div>
+          <div class="main-title">Речі, які ти відстежуєш</div>
+          <div class="subtitle">
+            швидко додавай, редагуй, змінюй статуси й знаходь потрібне
+          </div>
+        </div>
+        <div class="main-actions">
+          <button class="btn btn-secondary" id="clear-filters-btn">Скинути фільтри</button>
+          <button class="btn btn-secondary" id="export-btn">Експорт у JSON</button>
+        </div>
+      </header>
+
+      <section>
+        <div class="sidebar-label">Додати нову річ</div>
+        <div class="input-row">
+          <input
+            type="url"
+            class="input"
+            id="input-link"
+            placeholder="Посилання на товар"
+          />
+          <button class="btn" id="add-item-btn">+ Додати</button>
+        </div>
+        <div class="input-row">
+          <input
+            type="text"
+            class="input input-small"
+            id="input-title"
+            placeholder="Назва"
+          />
+          <input
+            type="number"
+            class="input input-small"
+            id="input-price"
+            placeholder="Ціна"
+          />
+        </div>
+        <div class="input-row">
+          <input
+            type="text"
+            class="input input-small"
+            id="input-size"
+            placeholder="Розмір (наприклад 42, M)"
+          />
+          <select class="input input-small" id="input-category">
+            <option value="sneakers">Кросівки</option>
+            <option value="clothes">Одяг</option>
+            <option value="other">Інші речі</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <input
+            type="url"
+            class="input input-small"
+            id="input-image"
+            placeholder="Посилання на фото (необов'язково)"
+          />
+          <select class="input input-small" id="input-status">
+            <option value="want">Хочу купити</option>
+            <option value="saved">Збережено</option>
+            <option value="ordered">Замовлено</option>
+            <option value="pending">Очікується</option>
+            <option value="received">Отримано</option>
+          </select>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section>
+        <div class="filters-row">
+          <input
+            type="text"
+            class="input"
+            id="search-input"
+            placeholder="Пошук за назвою"
+          />
+          <span class="pill" id="favorites-pill">Улюблені: 0</span>
+          <span class="pill pill-strong" id="current-view-pill">Перегляд: усі</span>
+        </div>
+
+        <div class="items-list" id="items-list"></div>
+        <div class="empty-state" id="empty-state" style="display:none;">
+          Тут поки порожньо. Додай першу річ, яку хочеш відстежувати.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "artem_wishlist_items_v1";
+
+    const STATUS_LABELS = {
+      want: "хочу купити",
+      saved: "збережено",
+      ordered: "замовлено",
+      pending: "очікується",
+      received: "отримано",
+    };
+
+    const CATEGORY_LABELS = {
+      sneakers: "кросівки",
+      clothes: "одяг",
+      other: "інші речі",
+    };
+
+    let items = [];
+    let filters = {
+      category: "all",
+      status: "all",
+      view: "all",
+      priceMin: "",
+      priceMax: "",
+      size: "",
+      search: "",
+    };
+
+    // DOM
+    const itemsListEl = document.getElementById("items-list");
+    const emptyStateEl = document.getElementById("empty-state");
+    const itemsCountBadgeEl = document.getElementById("items-count-badge");
+    const statWantEl = document.getElementById("stat-want");
+    const statOrderedEl = document.getElementById("stat-ordered");
+    const statPendingEl = document.getElementById("stat-pending");
+    const statBoughtEl = document.getElementById("stat-bought");
+    const favoritesPillEl = document.getElementById("favorites-pill");
+    const currentViewPillEl = document.getElementById("current-view-pill");
+
+    const categoryTabsEl = document.getElementById("category-tabs");
+    const statusFilterEl = document.getElementById("status-filter");
+    const viewTabsEl = document.getElementById("view-tabs");
+
+    const filterPriceMinEl = document.getElementById("filter-price-min");
+    const filterPriceMaxEl = document.getElementById("filter-price-max");
+    const filterSizeEl = document.getElementById("filter-size");
+    const searchInputEl = document.getElementById("search-input");
+
+    const clearFiltersBtn = document.getElementById("clear-filters-btn");
+    const exportBtn = document.getElementById("export-btn");
+
+    const inputLinkEl = document.getElementById("input-link");
+    const inputTitleEl = document.getElementById("input-title");
+    const inputPriceEl = document.getElementById("input-price");
+    const inputSizeEl = document.getElementById("input-size");
+    const inputCategoryEl = document.getElementById("input-category");
+    const inputImageEl = document.getElementById("input-image");
+    const inputStatusEl = document.getElementById("input-status");
+    const addItemBtn = document.getElementById("add-item-btn");
+
+    function loadItems() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          items = [];
+          return;
+        }
+        items = JSON.parse(raw);
+      } catch (e) {
+        items = [];
+      }
+    }
+
+    function saveItems() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    }
+
+    function createItem(data) {
+      const id = Date.now().toString() + Math.random().toString(16).slice(2);
+      return {
+        id,
+        title: data.title || "Без назви",
+        price: data.price || null,
+        size: data.size || "",
+        link: data.link || "",
+        image: data.image || "",
+        category: data.category || "other",
+        status: data.status || "want",
+        favorite: false,
+        createdAt: new Date().toISOString(),
+      };
+    }
+
+    function addItemFromForm() {
+      const link = inputLinkEl.value.trim();
+      const title = inputTitleEl.value.trim();
+      const price = inputPriceEl.value ? Number(inputPriceEl.value) : null;
+      const size = inputSizeEl.value.trim();
+      const category = inputCategoryEl.value;
+      const image = inputImageEl.value.trim();
+      const status = inputStatusEl.value;
+
+      if (!link && !title) {
+        alert("Додай хоча б посилання або назву.");
+        return;
+      }
+
+      const item = createItem({
+        link,
+        title: title || link,
+        price,
+        size,
+        category,
+        image,
+        status,
+      });
+
+      items.unshift(item);
+      saveItems();
+      clearAddForm();
+      render();
+    }
+
+    function clearAddForm() {
+      inputLinkEl.value = "";
+      inputTitleEl.value = "";
+      inputPriceEl.value = "";
+      inputSizeEl.value = "";
+      inputImageEl.value = "";
+      inputStatusEl.value = "want";
+      inputCategoryEl.value = "sneakers";
+    }
+
+    function setFilterCategory(category) {
+      filters.category = category;
+      render();
+    }
+
+    function setFilterStatus(status) {
+      filters.status = status;
+      render();
+    }
+
+    function setView(view) {
+      filters.view = view;
+      render();
+    }
+
+    function updateFiltersFromInputs() {
+      filters.priceMin = filterPriceMinEl.value;
+      filters.priceMax = filterPriceMaxEl.value;
+      filters.size = filterSizeEl.value.trim();
+      filters.search = searchInputEl.value.trim();
+      render();
+    }
+
+    function clearFilters() {
+      filters = {
+        ...filters,
+        category: "all",
+        status: "all",
+        view: "all",
+        priceMin: "",
+        priceMax: "",
+        size: "",
+        search: "",
+      };
+      filterPriceMinEl.value = "";
+      filterPriceMaxEl.value = "";
+      filterSizeEl.value = "";
+      searchInputEl.value = "";
+      render();
+    }
+
+    function toggleFavorite(id) {
+      const item = items.find((i) => i.id === id);
+      if (!item) return;
+      item.favorite = !item.favorite;
+      saveItems();
+      render();
+    }
+
+    function changeStatus(id, status) {
+      const item = items.find((i) => i.id === id);
+      if (!item) return;
+      item.status = status;
+      saveItems();
+      render();
+    }
+
+    function deleteItem(id) {
+      if (!confirm("Точно видалити цю річ?")) return;
+      items = items.filter((i) => i.id !== id);
+      saveItems();
+      render();
+    }
+
+    function exportItems() {
+      const json = JSON.stringify(items, null, 2);
+      navigator.clipboard
+        .writeText(json)
+        .then(() => alert("JSON скопійовано в буфер обміну."))
+        .catch(() => alert("Не вдалося скопіювати. Але ось JSON:\n\n" + json));
+    }
+
+    function applyFilters(list) {
+      let result = [...list];
+
+      if (filters.category !== "all") {
+        result = result.filter((i) => i.category === filters.category);
+      }
+
+      if (filters.status !== "all") {
+        result = result.filter((i) => i.status === filters.status);
+      }
+
+      if (filters.view === "favorites") {
+        result = result.filter((i) => i.favorite);
+      }
+
+      if (filters.priceMin) {
+        const min = Number(filters.priceMin);
+        result = result.filter((i) => i.price == null || i.price >= min);
+      }
+
+      if (filters.priceMax) {
+        const max = Number(filters.priceMax);
+        result = result.filter((i) => i.price == null || i.price <= max);
+      }
+
+      if (filters.size) {
+        const s = filters.size.toLowerCase();
+        result = result.filter((i) => (i.size || "").toLowerCase().includes(s));
+      }
+
+      if (filters.search) {
+        const q = filters.search.toLowerCase();
+        result = result.filter((i) => i.title.toLowerCase().includes(q));
+      }
+
+      return result;
+    }
+
+    function updateDashboardStats() {
+      const total = items.length;
+      itemsCountBadgeEl.textContent = total + " речей";
+
+      const want = items.filter((i) => i.status === "want").length;
+      const ordered = items.filter((i) => i.status === "ordered").length;
+      const pending = items.filter((i) => i.status === "pending").length;
+      const bought = items.filter(
+        (i) => i.status === "received" || i.status === "saved"
+      ).length;
+
+      statWantEl.textContent = want;
+      statOrderedEl.textContent = ordered;
+      statPendingEl.textContent = pending;
+      statBoughtEl.textContent = bought;
+
+      const favoritesCount = items.filter((i) => i.favorite).length;
+      favoritesPillEl.textContent = "Улюблені: " + favoritesCount;
+
+      currentViewPillEl.textContent =
+        "Перегляд: " + (filters.view === "favorites" ? "улюблені" : "усі");
+    }
+
+    function renderTabs(container, activeValue, attr) {
+      const buttons = container.querySelectorAll("button");
+      buttons.forEach((btn) => {
+        const value = btn.getAttribute(attr);
+        btn.classList.toggle("active", value === activeValue);
+      });
+    }
+
+    function render() {
+      updateDashboardStats();
+
+      renderTabs(categoryTabsEl, filters.category, "data-category");
+      renderTabs(statusFilterEl, filters.status, "data-status");
+      renderTabs(viewTabsEl, filters.view, "data-view");
+
+      const filtered = applyFilters(items);
+
+      itemsListEl.innerHTML = "";
+      if (filtered.length === 0) {
+        emptyStateEl.style.display = "block";
+        return;
+      } else {
+        emptyStateEl.style.display = "none";
+      }
+
+      filtered.forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "item-card";
+
+        const top = document.createElement("div");
+        top.className = "item-top";
+
+        const imageWrapper = document.createElement("div");
+        imageWrapper.className = "item-image";
+        if (item.image) {
+          const img = document.createElement("img");
+          img.src = item.image;
+          img.alt = item.title;
+          imageWrapper.appendChild(img);
+        } else {
+          const placeholder = document.createElement("div");
+          placeholder.style.width = "100%";
+          placeholder.style.height = "100%";
+          placeholder.style.display = "flex";
+          placeholder.style.alignItems = "center";
+          placeholder.style.justifyContent = "center";
+          placeholder.style.fontSize = "10px";
+          placeholder.style.color = "var(--text-muted)";
+          placeholder.textContent = "немає фото";
+          imageWrapper.appendChild(placeholder);
+        }
+
+        const info = document.createElement("div");
+        info.className = "item-info";
+
+        const titleEl = document.createElement("div");
+        titleEl.className = "item-title";
+        titleEl.textContent = item.title;
+
+        const metaEl = document.createElement("div");
+        metaEl.className = "item-meta";
+        const parts = [];
+        if (item.price != null) parts.push(item.price + " ₴");
+        if (item.size) parts.push("розмір " + item.size);
+        parts.push(CATEGORY_LABELS[item.category] || "категорія");
+        metaEl.textContent = parts.join(" • ");
+
+        const tagsEl = document.createElement("div");
+        tagsEl.className = "item-tags";
+
+        const statusTag = document.createElement("span");
+        statusTag.className = "tag tag-status";
+        statusTag.textContent = STATUS_LABELS[item.status] || item.status;
+        tagsEl.appendChild(statusTag);
+
+        const createdTag = document.createElement("span");
+        createdTag.className = "tag";
+        const date = new Date(item.createdAt);
+        createdTag.textContent =
+          "додано " +
+          date.toLocaleDateString("uk-UA", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+        tagsEl.appendChild(createdTag);
+
+        info.appendChild(titleEl);
+        info.appendChild(metaEl);
+        info.appendChild(tagsEl);
+
+        top.appendChild(imageWrapper);
+        top.appendChild(info);
+
+        const bottom = document.createElement("div");
+        bottom.className = "item-bottom";
+
+        const leftActions = document.createElement("div");
+        leftActions.className = "item-actions";
+
+        const favoriteBtn = document.createElement("button");
+        favoriteBtn.className = "favorite-btn" + (item.favorite ? " active" : "");
+        favoriteBtn.innerHTML = item.favorite ? "★" : "☆";
+        favoriteBtn.title = "Улюблене";
+        favoriteBtn.addEventListener("click", () => toggleFavorite(item.id));
+        leftActions.appendChild(favoriteBtn);
+
+        const statusSelect = document.createElement("select");
+        statusSelect.className = "status-select";
+        Object.entries(STATUS_LABELS).forEach(([value, label]) => {
+          const opt = document.createElement("option");
+          opt.value = value;
+          opt.textContent = label;
+          if (value === item.status) opt.selected = true;
+          statusSelect.appendChild(opt);
+        });
+        statusSelect.addEventListener("change", (e) =>
+          changeStatus(item.id, e.target.value)
+        );
+        leftActions.appendChild(statusSelect);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "favorite-btn delete-btn";
+        deleteBtn.textContent = "✕";
+        deleteBtn.title = "Видалити";
+        deleteBtn.addEventListener("click", () => deleteItem(item.id));
+        leftActions.appendChild(deleteBtn);
+
+        const rightActions = document.createElement("div");
+        rightActions.className = "item-actions";
+
+        if (item.link) {
+          const linkEl = document.createElement("a");
+          linkEl.className = "link";
+          linkEl.href = item.link;
+          linkEl.target = "_blank";
+          linkEl.rel = "noopener noreferrer";
+          linkEl.textContent = "Відкрити товар";
+          rightActions.appendChild(linkEl);
+        }
+
+        bottom.appendChild(leftActions);
+        bottom.appendChild(rightActions);
+
+        card.appendChild(top);
+        card.appendChild(bottom);
+
+        itemsListEl.appendChild(card);
+      });
+    }
+
+    function initEvents() {
+      addItemBtn.addEventListener("click", addItemFromForm);
+      inputLinkEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") addItemFromForm();
+      });
+      inputTitleEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") addItemFromForm();
+      });
+
+      categoryTabsEl.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const category = btn.getAttribute("data-category");
+        setFilterCategory(category);
+      });
+
+      statusFilterEl.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const status = btn.getAttribute("data-status");
+        setFilterStatus(status);
+      });
+
+      viewTabsEl.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const view = btn.getAttribute("data-view");
+        setView(view);
+      });
+
+      filterPriceMinEl.addEventListener("input", updateFiltersFromInputs);
+      filterPriceMaxEl.addEventListener("input", updateFiltersFromInputs);
+      filterSizeEl.addEventListener("input", updateFiltersFromInputs);
+      searchInputEl.addEventListener("input", updateFiltersFromInputs);
+
+      clearFiltersBtn.addEventListener("click", clearFilters);
+      exportBtn.addEventListener("click", exportItems);
+    }
+
+    function bootstrap() {
+      loadItems();
+      initEvents();
+      render();
+    }
+
+    bootstrap();
+  </script>
+</body>
+</html>
