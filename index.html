@@ -4,44 +4,123 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Мій каталог речей</title>
-
 <style>
+:root {
+    --bg: #000;
+    --bg-soft: #080808;
+    --bg-card: #111;
+    --text: #fff;
+    --text-soft: #aaa;
+    --accent: #ff4b2b;
+    --accent-soft: #ff7b47;
+    --border: #222;
+}
+body.light {
+    --bg: #f5f5f5;
+    --bg-soft: #ffffff;
+    --bg-card: #ffffff;
+    --text: #111;
+    --text-soft: #666;
+    --accent: #ff4b2b;
+    --accent-soft: #ff7b47;
+    --border: #ddd;
+}
 body {
-    background: #000;
-    color: #fff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     margin: 0;
-    padding-bottom: 90px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
 }
 
-/* Заголовок */
+/* Header */
 .header {
-    padding: 16px 20px 8px;
+    padding: 14px 16px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .header-title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
 }
 .header-sub {
-    font-size: 13px;
-    color: #aaa;
+    font-size: 12px;
+    color: var(--text-soft);
+}
+.theme-toggle {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 11px;
+    background: var(--bg-soft);
+    color: var(--text-soft);
+    cursor: pointer;
 }
 
-/* Форма додавання */
-.form {
-    padding: 10px 20px 0;
+/* Main */
+.screen {
+    padding: 8px 16px 80px;
+}
+
+/* Category buttons */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+}
+.cat-btn {
+    background: var(--bg-soft);
+    border-radius: 14px;
+    padding: 12px;
+    border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
-.form input,
-.form select {
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 10px;
-    padding: 10px;
-    color: #fff;
+.cat-btn-title {
     font-size: 14px;
+    font-weight: 600;
+}
+.cat-btn-sub {
+    font-size: 11px;
+    color: var(--text-soft);
+}
+.cat-btn:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+
+/* Main add button */
+.main-add {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 16px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 0 18px rgba(255,75,43,0.5);
+}
+.main-add:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 10px rgba(255,75,43,0.3);
+}
+
+/* Form */
+.form {
+    margin-top: 10px;
+    padding: 10px;
+    background: var(--bg-soft);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    display: none;
+    flex-direction: column;
+    gap: 8px;
 }
 .form-row {
     display: flex;
@@ -50,72 +129,93 @@ body {
 .form-row > * {
     flex: 1;
 }
-
-/* Кнопки */
-.btn {
-    border: none;
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+.form input,
+.form select,
+.form textarea {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 13px;
+    color: var(--text);
 }
-.btn-main {
-    background: linear-gradient(90deg, #ff0000, #ff6600);
-    color: #fff;
-    box-shadow: 0 0 16px rgba(255, 80, 0, 0.5);
+.form textarea {
+    min-height: 60px;
+    resize: vertical;
 }
-.btn-secondary {
-    background: #181818;
-    color: #eee;
-    border: 1px solid #333;
-}
-.btn:active {
-    transform: scale(0.96);
-    box-shadow: 0 0 8px rgba(255, 80, 0, 0.3);
-}
-
-/* Панель дій */
-.actions {
-    padding: 10px 20px;
+.form-actions {
     display: flex;
     gap: 8px;
-    flex-wrap: wrap;
+    margin-top: 4px;
+}
+.btn {
+    border-radius: 999px;
+    border: none;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-main {
+    background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+    color: #fff;
+}
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-soft);
+    border: 1px solid var(--border);
 }
 
-/* Пошук */
+/* Category screen */
+.cat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+}
+.cat-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+.cat-back {
+    font-size: 12px;
+    color: var(--text-soft);
+    cursor: pointer;
+}
+
+/* Search */
 .search-bar {
-    padding: 0 20px 10px;
+    margin-top: 8px;
 }
 .search-bar input {
     width: 100%;
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 10px;
-    padding: 10px;
-    color: #fff;
-    font-size: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text);
 }
 
-/* Список товарів */
+/* Cards */
 .list {
-    padding: 10px 20px 20px;
+    margin-top: 10px;
 }
 .card {
-    background: #080808;
+    background: var(--bg-soft);
     border-radius: 14px;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #222;
+    border: 1px solid var(--border);
+    padding: 8px;
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    margin-bottom: 8px;
 }
 .card-img {
-    width: 70px;
-    height: 70px;
+    width: 64px;
+    height: 64px;
     border-radius: 10px;
-    background: #111;
+    background: var(--bg-card);
     object-fit: cover;
 }
 .card-body {
@@ -125,12 +225,12 @@ body {
     gap: 4px;
 }
 .card-title {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
 }
 .card-meta {
-    font-size: 12px;
-    color: #aaa;
+    font-size: 11px;
+    color: var(--text-soft);
 }
 .card-row {
     display: flex;
@@ -143,53 +243,50 @@ body {
     border-radius: 999px;
     font-weight: 600;
 }
-
-/* Статуси */
-.status-use {
-    background: rgba(0, 180, 80, 0.2);
+.status-good {
+    background: rgba(34,197,94,0.15);
     color: #4ade80;
 }
-.status-sale {
-    background: rgba(255, 160, 0, 0.2);
-    color: #fed7aa;
+.status-used {
+    background: rgba(234,179,8,0.15);
+    color: #fde68a;
 }
-.status-reserve {
-    background: rgba(120, 120, 255, 0.2);
-    color: #a5b4fc;
+.status-bad {
+    background: rgba(248,113,113,0.15);
+    color: #fecaca;
 }
-
-/* Кнопки в картці */
 .card-actions {
     display: flex;
     gap: 6px;
-    margin-top: 6px;
+    margin-top: 4px;
 }
 .card-actions .btn {
     font-size: 11px;
-    padding: 6px 8px;
+    padding: 5px 8px;
 }
 
-/* Навігація знизу */
+/* Bottom nav */
 .nav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: #050505;
-    border-top: 1px solid #222;
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border);
     display: flex;
     justify-content: space-around;
-    padding: 8px 0;
+    padding: 6px 0;
 }
 .nav-item {
+    font-size: 11px;
+    color: var(--text-soft);
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 11px;
-    color: #888;
+    cursor: pointer;
 }
 .nav-item.active {
-    color: #fff;
+    color: var(--accent-soft);
 }
 .nav-dot {
     width: 4px;
@@ -199,280 +296,101 @@ body {
     background: transparent;
 }
 .nav-item.active .nav-dot {
-    background: #ff4b2b;
+    background: var(--accent-soft);
 }
 </style>
 </head>
-<body>
+<body class="dark">
 
 <div class="header">
-    <div class="header-title">Мій каталог речей</div>
-    <div class="header-sub">Фото, назва, ціна, категорія, розмір, статус, нагадування</div>
-</div>
-
-<div class="form">
-    <input id="photoUrl" type="text" placeholder="Фото URL (необов'язково)">
-    <input id="name" type="text" placeholder="Назва">
-    <div class="form-row">
-        <input id="price" type="number" placeholder="Ціна">
-        <input id="size" type="text" placeholder="Розмір">
+    <div>
+        <div class="header-title">Мій каталог речей</div>
+        <div class="header-sub">Особистий застосунок-каталог, все під рукою</div>
     </div>
-    <div class="form-row">
-        <input id="category" type="text" placeholder="Категорія">
-        <select id="status">
-            <option value="use">У використанні</option>
-            <option value="sale">На продаж</option>
-            <option value="reserve">Резерв</option>
-        </select>
+    <button id="themeToggle" class="theme-toggle">Темна</button>
+</div>
+
+<div id="mainScreen" class="screen">
+    <div class="category-grid">
+        <div class="cat-btn" data-cat="Кросівки">
+            <div class="cat-btn-title">Кросівки</div>
+            <div class="cat-btn-sub">Взуття, пари, бренди</div>
+        </div>
+        <div class="cat-btn" data-cat="Футболки">
+            <div class="cat-btn-title">Футболки</div>
+            <div class="cat-btn-sub">Базові, принти</div>
+        </div>
+        <div class="cat-btn" data-cat="Кофти">
+            <div class="cat-btn-title">Кофти</div>
+            <div class="cat-btn-sub">Худі, світшоти</div>
+        </div>
+        <div class="cat-btn" data-cat="Штани">
+            <div class="cat-btn-title">Штани</div>
+            <div class="cat-btn-sub">Карго, класика</div>
+        </div>
+        <div class="cat-btn" data-cat="Шорти">
+            <div class="cat-btn-title">Шорти</div>
+            <div class="cat-btn-sub">Літо, спорт</div>
+        </div>
+        <div class="cat-btn" data-cat="Куртки">
+            <div class="cat-btn-title">Куртки</div>
+            <div class="cat-btn-sub">Зима, демісезон</div>
+        </div>
+        <div class="cat-btn" data-cat="Джинси">
+            <div class="cat-btn-title">Джинси</div>
+            <div class="cat-btn-sub">Класика, relaxed</div>
+        </div>
+        <div class="cat-btn" data-cat="Носки">
+            <div class="cat-btn-title">Носки</div>
+            <div class="cat-btn-sub">Пари, запаси</div>
+        </div>
+        <div class="cat-btn" data-cat="Аксесуари">
+            <div class="cat-btn-title">Аксесуари</div>
+            <div class="cat-btn-sub">Кепки, ремені</div>
+        </div>
     </div>
-    <input id="restockNote" type="text" placeholder="Нагадування про поповнення (наприклад: «Купити ще через 2 місяці»)">
-    <button id="addBtn" class="btn btn-main">Додати товар</button>
+
+    <div id="openFormBtn" class="main-add">Додати товар</div>
+
+    <div id="form" class="form">
+        <input id="formName" type="text" placeholder="Назва">
+        <input id="formCategory" type="text" placeholder="Категорія (наприклад: Кросівки)">
+        <div class="form-row">
+            <input id="formSize" type="text" placeholder="Розмір">
+            <input id="formPrice" type="number" placeholder="Ціна">
+        </div>
+        <div class="form-row">
+            <input id="formQty" type="number" placeholder="Кількість">
+            <input id="formBrand" type="text" placeholder="Бренд">
+        </div>
+        <div class="form-row">
+            <input id="formColor" type="text" placeholder="Колір">
+            <select id="formState">
+                <option value="good">Стан: відмінний</option>
+                <option value="used">Стан: вживаний</option>
+                <option value="bad">Стан: поганий</option>
+            </select>
+        </div>
+        <input id="formPhoto" type="text" placeholder="Фото URL">
+        <input id="formLink" type="text" placeholder="Посилання (якщо є)">
+        <textarea id="formNotes" placeholder="Нотатки (наприклад: де купив, коли, особливості)"></textarea>
+        <div class="form-actions">
+            <button id="saveItemBtn" class="btn btn-main">Зберегти</button>
+            <button id="cancelFormBtn" class="btn btn-secondary">Скасувати</button>
+        </div>
+    </div>
 </div>
 
-<div class="actions">
-    <button id="exportCsvBtn" class="btn btn-secondary">Експорт в Excel (CSV)</button>
-    <button id="exportPdfBtn" class="btn btn-secondary">Експорт в PDF</button>
+<div id="categoryScreen" class="screen" style="display:none;">
+    <div class="cat-header">
+        <div class="cat-title" id="catTitle"></div>
+        <div class="cat-back" id="backBtn">Назад</div>
+    </div>
+    <div class="search-bar">
+        <input id="searchInput" type="text" placeholder="Пошук по назві, бренду, розміру">
+    </div>
+    <div id="catList" class="list"></div>
 </div>
-
-<div class="search-bar">
-    <input id="searchInput" type="text" placeholder="Пошук по назві, категорії, статусу">
-</div>
-
-<div class="list" id="list"></div>
 
 <div class="nav">
-    <div class="nav-item active" data-tab="catalog">
-        <span>Каталог</span>
-        <div class="nav-dot"></div>
-    </div>
-    <div class="nav-item" data-tab="favorites">
-        <span>Обране</span>
-        <div class="nav-dot"></div>
-    </div>
-    <div class="nav-item" data-tab="filters">
-        <span>Фільтри</span>
-        <div class="nav-dot"></div>
-    </div>
-    <div class="nav-item" data-tab="sales">
-        <span>Продажі</span>
-        <div class="nav-dot"></div>
-    </div>
-    <div class="nav-item" data-tab="profile">
-        <span>Профіль</span>
-        <div class="nav-dot"></div>
-    </div>
-</div>
-
-<script>
-let items = [];
-let favorites = new Set();
-let currentTab = "catalog";
-
-function getStatusLabel(status) {
-    if (status === "use") return "У використанні";
-    if (status === "sale") return "На продаж";
-    if (status === "reserve") return "Резерв";
-    return "Невідомо";
-}
-function getStatusClass(status) {
-    if (status === "use") return "status-use";
-    if (status === "sale") return "status-sale";
-    if (status === "reserve") return "status-reserve";
-    return "";
-}
-
-document.getElementById("addBtn").addEventListener("click", () => {
-    const photoUrl = document.getElementById("photoUrl").value.trim();
-    const name = document.getElementById("name").value.trim();
-    const price = document.getElementById("price").value.trim();
-    const size = document.getElementById("size").value.trim();
-    const category = document.getElementById("category").value.trim();
-    const status = document.getElementById("status").value;
-    const restockNote = document.getElementById("restockNote").value.trim();
-
-    if (!name) return;
-
-    const item = {
-        id: Date.now(),
-        photoUrl,
-        name,
-        price,
-        size,
-        category,
-        status,
-        restockNote,
-        date: new Date().toLocaleDateString("uk-UA")
-    };
-    items.push(item);
-    renderList();
-    clearForm();
-});
-
-function clearForm() {
-    document.getElementById("photoUrl").value = "";
-    document.getElementById("name").value = "";
-    document.getElementById("price").value = "";
-    document.getElementById("size").value = "";
-    document.getElementById("category").value = "";
-    document.getElementById("status").value = "use";
-    document.getElementById("restockNote").value = "";
-}
-
-document.getElementById("searchInput").addEventListener("input", () => {
-    renderList();
-});
-
-function renderList() {
-    const listEl = document.getElementById("list");
-    listEl.innerHTML = "";
-
-    const query = document.getElementById("searchInput").value.trim().toLowerCase();
-
-    let filtered = items;
-
-    if (currentTab === "favorites") {
-        filtered = filtered.filter(i => favorites.has(i.id));
-    } else if (currentTab === "sales") {
-        filtered = filtered.filter(i => i.status === "sale");
-    }
-
-    if (query) {
-        filtered = filtered.filter(i =>
-            (i.name || "").toLowerCase().includes(query) ||
-            (i.category || "").toLowerCase().includes(query) ||
-            getStatusLabel(i.status).toLowerCase().includes(query)
-        );
-    }
-
-    filtered.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "card";
-
-        const img = document.createElement("img");
-        img.className = "card-img";
-        img.src = item.photoUrl || "https://via.placeholder.com/70x70/111111/555555?text=IMG";
-
-        const body = document.createElement("div");
-        body.className = "card-body";
-
-        const title = document.createElement("div");
-        title.className = "card-title";
-        title.textContent = item.name;
-
-        const meta1 = document.createElement("div");
-        meta1.className = "card-meta";
-        meta1.textContent = `Ціна: ${item.price || "—"} • Категорія: ${item.category || "—"} • Розмір: ${item.size || "—"}`;
-
-        const meta2 = document.createElement("div");
-        meta2.className = "card-meta";
-        meta2.textContent = `Дата: ${item.date} • Нагадування: ${item.restockNote || "—"}`;
-
-        const row = document.createElement("div");
-        row.className = "card-row";
-
-        const statusEl = document.createElement("div");
-        statusEl.className = "card-status " + getStatusClass(item.status);
-        statusEl.textContent = getStatusLabel(item.status);
-
-        const favBtn = document.createElement("button");
-        favBtn.className = "btn btn-secondary";
-        favBtn.style.fontSize = "11px";
-        favBtn.textContent = favorites.has(item.id) ? "У обраному" : "В обране";
-        favBtn.addEventListener("click", () => {
-            if (favorites.has(item.id)) favorites.delete(item.id);
-            else favorites.add(item.id);
-            renderList();
-        });
-
-        row.appendChild(statusEl);
-        row.appendChild(favBtn);
-
-        const actions = document.createElement("div");
-        actions.className = "card-actions";
-
-        const duplicateBtn = document.createElement("button");
-        duplicateBtn.className = "btn btn-secondary";
-        duplicateBtn.textContent = "Дублювати";
-        duplicateBtn.addEventListener("click", () => {
-            const copy = { ...item, id: Date.now(), date: new Date().toLocaleDateString("uk-UA") };
-            items.push(copy);
-            renderList();
-        });
-
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "btn btn-secondary";
-        deleteBtn.textContent = "Видалити";
-        deleteBtn.addEventListener("click", () => {
-            items = items.filter(i => i.id !== item.id);
-            favorites.delete(item.id);
-            renderList();
-        });
-
-        actions.appendChild(duplicateBtn);
-        actions.appendChild(deleteBtn);
-
-        body.appendChild(title);
-        body.appendChild(meta1);
-        body.appendChild(meta2);
-        body.appendChild(row);
-        body.appendChild(actions);
-
-        card.appendChild(img);
-        card.appendChild(body);
-
-        listEl.appendChild(card);
-    });
-}
-
-/* Навігація */
-document.querySelectorAll(".nav-item").forEach(el => {
-    el.addEventListener("click", () => {
-        document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-        el.classList.add("active");
-        currentTab = el.getAttribute("data-tab");
-        renderList();
-    });
-});
-
-/* Експорт в CSV (Excel) */
-document.getElementById("exportCsvBtn").addEventListener("click", () => {
-    if (!items.length) return;
-    const rows = [
-        ["Назва", "Ціна", "Категорія", "Розмір", "Статус", "Дата", "Фото", "Нагадування"]
-    ];
-    items.forEach(i => {
-        rows.push([
-            i.name,
-            i.price,
-            i.category,
-            i.size,
-            getStatusLabel(i.status),
-            i.date,
-            i.photoUrl,
-            i.restockNote
-        ]);
-    });
-    const csv = rows.map(r => r.map(v => `"${(v || "").toString().replace(/"/g, '""')}"`).join(";")).join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "catalog.csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-});
-
-/* Експорт в PDF (через друк) */
-document.getElementById("exportPdfBtn").addEventListener("click", () => {
-    window.print();
-});
-
-/* Початковий рендер */
-renderList();
-</script>
-
-</body>
-</html>
 
